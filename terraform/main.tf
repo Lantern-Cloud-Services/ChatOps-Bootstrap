@@ -19,7 +19,6 @@ resource "azurerm_resource_group" "test" {
 }
 
 
-/*
 resource "azurerm_function_app" "example" {
 	name                       = "example-function-app"
 	location                   = azurerm_resource_group.test.location
@@ -28,18 +27,18 @@ resource "azurerm_function_app" "example" {
 	storage_account_name       = azurerm_storage_account.example.name
 	storage_account_access_key = azurerm_storage_account.example.primary_access_key
 	os_type                    = "linux"
-	runtime_stack              = "dotnet"
+#	runtime_stack              = "dotnet"
 	version                    = "~6"
-	site_config {
-		application_stack {
-			dotnet_version = "6.0"
-		}
-	}
+#	site_config {
+#		application_stack {
+#			dotnet_version = "6.0"
+#		}
+#	}
 	identity {
 		type = "SystemAssigned"
 	}
 }
-*/
+
 resource "azurerm_app_service_plan" "example" {
 	name                = "chatops-app-service-plan"
 	location            = azurerm_resource_group.test.location
