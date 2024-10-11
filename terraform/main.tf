@@ -13,6 +13,12 @@ provider "azurerm" {
   features {}
 }
 
+# Generate a random integer to create a globally unique name
+resource "random_integer" "ri" {
+  min = 10000
+  max = 99999
+}
+
 resource "azurerm_resource_group" "test" {
     name = "${var.project}-${var.environment}-rg"
     location = var.location
@@ -20,7 +26,7 @@ resource "azurerm_resource_group" "test" {
 
 
 resource "azurerm_function_app" "example" {
-	name                       = "example-function-app"
+	name                       = "example-function-app-${random_integer.ri.result}"
 	location                   = azurerm_resource_group.test.location
 	resource_group_name        = azurerm_resource_group.test.name
 	app_service_plan_id        = azurerm_app_service_plan.example.id
