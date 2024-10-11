@@ -20,10 +20,9 @@ resource "random_integer" "ri" {
 }
 
 resource "azurerm_resource_group" "test" {
-    name = "${var.project}-${var.environment}-rg"
+    name = "${var.project}-${var.environment}-${random_integer.ri.result}-rg1"
     location = var.location
 }
-
 
 resource "azurerm_function_app" "example" {
 	name                       = "example-function-app-${random_integer.ri.result}"
@@ -40,7 +39,7 @@ resource "azurerm_function_app" "example" {
 }
 
 resource "azurerm_app_service_plan" "example" {
-	name                = "chatops-app-service-plan"
+	name                = "chatops-app-service-plan-${random_integer.ri.result}"
 	location            = azurerm_resource_group.test.location
 	resource_group_name = azurerm_resource_group.test.name
 	kind                = "FunctionApp"
@@ -52,7 +51,7 @@ resource "azurerm_app_service_plan" "example" {
 }
 
 resource "azurerm_storage_account" "example" {
-	name                     = "demochatopsfunsa1"
+	name                     = "demochatopsfunsa1-${random_integer.ri.result}"
 	resource_group_name      = azurerm_resource_group.test.name
 	location                 = azurerm_resource_group.test.location
 	account_tier             = "Standard"
