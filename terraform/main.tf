@@ -25,10 +25,11 @@ resource "random_integer" "ri" {
 
 
 resource "azurerm_resource_group" "example" {
-    name = "${var.project}-${var.environment}-${var.randomname}-rg1"
+    name = "${var.project}-${var.environment}-rg-${var.randomname}"
     location = var.location
 }
 
+/*
 resource "azurerm_function_app" "example" {
 	name                       = "example-function-app-${var.randomname}"
 	location                   = azurerm_resource_group.example.location
@@ -42,6 +43,31 @@ resource "azurerm_function_app" "example" {
 		type = "SystemAssigned"
 	}
 }
+*/
+
+resource "azurerm_linux_function_app" "example" {
+  name                        = "example-function-app-${var.randomname}"
+  location                    = azurerm_resource_group.example.location
+  resource_group_name         = azurerm_resource_group.example.name
+  service_plan_id             = azurerm_service_plan.example.id
+  storage_account_name        = azurerm_storage_account.example.name
+  storage_account_access_key  = azurerm_storage_account.example.primary_access_key
+  https_only                  = true
+  builtin_logging_enabled     = false
+  functions_extension_version = "~4"
+
+  site_config {
+    application_stack {
+      dotnet_version = "6.0"
+    }
+  }
+}
+
+resource "random_pet" "prefix" {
+  prefix = var.prefix
+  length = 1
+}
+
 
 resource "azurerm_app_service_plan" "example" {
 	name                = "chatops-app-service-plan-${var.randomname}"

@@ -9,3 +9,7 @@ output "storage_account_name" {
 output "function_app_name" {
   value = azurerm_function_app.example.name
 }
+
+output "prefix" {
+  value = random_pet.prefix
+}

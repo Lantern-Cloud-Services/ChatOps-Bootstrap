@@ -19,3 +19,9 @@ variable "randomname" {
   type = string
   description = "Random name to append to resources"
 }
+
+variable "prefix" {
+  type        = string
+  default     = "function-app"
+  description = "Prefix of the resource name"
+}
