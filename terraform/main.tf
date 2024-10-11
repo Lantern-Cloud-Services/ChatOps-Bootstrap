@@ -5,7 +5,6 @@ terraform {
     storage_account_name = "demochatopsbackendsa1"
     container_name       = "demo-chatops-terraform-state"
     key                  = "${var.project}-${var.environment}-state.tfstate"
-    #key                  = "demo-chatops-terraform-state.tfstate"
   }
 }
  
