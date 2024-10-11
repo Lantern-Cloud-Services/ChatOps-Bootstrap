@@ -14,3 +14,8 @@ variable "location" {
   type = string
   description = "Azure region to deploy module to"
 }
+
+variable "randomname" {
+  type = string
+  description = "Random name to append to resources"
+}
