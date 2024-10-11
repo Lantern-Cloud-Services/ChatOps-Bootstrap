@@ -1,3 +1,3 @@
 project = "chatops-demo"
 environment = "dev"
-location = "Central US"
+location = "West US"

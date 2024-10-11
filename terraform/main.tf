@@ -4,7 +4,7 @@ terraform {
     resource_group_name = "demo-lcs2-dev-chatops-rg1"
     storage_account_name = "demochatopsbackendsa1"
     container_name = "demo-chatops-terraform-state"
-    key = "chopsdemo-dev-state.tfstate"
+    key = "chatopsdemo-dev-state.tfstate"
     #key = "${var.project}-${var.environment}-state.tfstate"
   }
 }
@@ -27,13 +27,7 @@ resource "azurerm_function_app" "example" {
 	storage_account_name       = azurerm_storage_account.example.name
 	storage_account_access_key = azurerm_storage_account.example.primary_access_key
 	os_type                    = "linux"
-#	runtime_stack              = "dotnet"
 	version                    = "~6"
-#	site_config {
-#		application_stack {
-#			dotnet_version = "6.0"
-#		}
-#	}
 	identity {
 		type = "SystemAssigned"
 	}
