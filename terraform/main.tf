@@ -51,7 +51,7 @@ resource "azurerm_app_service_plan" "example" {
 }
 
 resource "azurerm_storage_account" "example" {
-	name                     = "demochatopsfunsa1-${random_integer.ri.result}"
+	name                     = "chatopsfunsa${random_integer.ri.result}"
 	resource_group_name      = azurerm_resource_group.test.name
 	location                 = azurerm_resource_group.test.location
 	account_tier             = "Standard"
