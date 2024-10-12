@@ -34,23 +34,6 @@ resource "azurerm_resource_group" "example" {
     location = var.location
 }
 
-/*
-resource "azurerm_function_app" "example" {
-	name                       = "example-function-app-${var.randomname}"
-	location                   = azurerm_resource_group.example.location
-	resource_group_name        = azurerm_resource_group.example.name
-	app_service_plan_id        = azurerm_app_service_plan.example.id
-	storage_account_name       = azurerm_storage_account.example.name
-	storage_account_access_key = azurerm_storage_account.example.primary_access_key
-	os_type                    = "linux"
-	version                    = "~6"
-	identity {
-		type = "SystemAssigned"
-	}
-}
-*/
-
-
 # create function app
 resource "azurerm_linux_function_app" "example" {
   name                        = "example-function-app-${var.randomname}"
@@ -111,11 +94,41 @@ resource "azurerm_storage_blob" "storage_blob" {
   source = "function-app.zip"
 }
 
-/*
-resource "azurerm_function_app_function" "example" {
-	name            = "example-function"
-	function_app_id = azurerm_function_app.example.id
-	file_path       = azurerm_storage_blob.function_zip.name
-	content_type    = "application/zip"
+# create storage blob container sas for function app
+data "azurerm_storage_account_blob_container_sas" "storage_account_blob_container_sas" {
+  connection_string = azurerm_storage_account.example.primary_connection_string
+  container_name    = azurerm_storage_container.example.name
+
+  start = "2021-01-01T00:00:00Z"
+  expiry = "2022-01-01T00:00:00Z"
+
+  permissions {
+    read   = true
+    add    = false
+    create = false
+    write  = false
+    delete = false
+    list   = false
+  }
 }
-*/
+
+# deploy function to function app
+resource "azurerm_function_app" "function_app" {
+  name                       = "${var.project}-function-app"
+  resource_group_name        = azurerm_resource_group.resource_group.name
+  location                   = var.location
+  app_service_plan_id        = azurerm_service_plan.exampl.id
+  app_settings = {
+    "WEBSITE_RUN_FROM_PACKAGE"    = "https://${azurerm_storage_account.example.name}.blob.core.windows.net/${azurerm_storage_container.example.name}/${azurerm_storage_blob.storage_blob.name}${data.azurerm_storage_account_blob_container_sas.storage_account_blob_container_sas.sas}",
+    "FUNCTIONS_WORKER_RUNTIME" = "dotnet",
+    "AzureWebJobsDisableHomepage" = "true",
+  }
+  os_type = "linux"
+#  site_config {
+#    linux_fx_version          = "node|14"
+#    use_32_bit_worker_process = false
+#  }
+  storage_account_name       = azurerm_storage_account.example.name
+  storage_account_access_key = azurerm_storage_account.examplet.primary_access_key
+  version                    = "~3"
+}
