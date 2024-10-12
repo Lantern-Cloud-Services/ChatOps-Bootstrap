@@ -112,24 +112,45 @@ data "azurerm_storage_account_blob_container_sas" "storage_account_blob_containe
   }
 }
 
+/*
+# create function app
+resource "azurerm_linux_function_app" "example" {
+  name                        = "example-function-app-${var.randomname}"
+  location                    = azurerm_resource_group.example.location
+  resource_group_name         = azurerm_resource_group.example.name
+  service_plan_id             = azurerm_service_plan.example.id
+  storage_account_name        = azurerm_storage_account.example.name
+  storage_account_access_key  = azurerm_storage_account.example.primary_access_key
+  https_only                  = true
+  builtin_logging_enabled     = false
+  functions_extension_version = "~4"
+
+  site_config {
+    application_stack {
+      dotnet_version = "6.0"
+    }
+  }
+}
+*/
+
 # deploy function to function app
-resource "azurerm_function_app" "function_app" {
+resource "azurerm_linux_function_app" "example" {
   #name                       = "${var.project}-function-app"
   name                       = "example-function-app-${var.randomname}"
   resource_group_name        = azurerm_resource_group.example.name
   location                   = var.location
-  app_service_plan_id        = azurerm_service_plan.example.id
+  service_plan_id        = azurerm_service_plan.example.id
   app_settings = {
     "WEBSITE_RUN_FROM_PACKAGE"    = "https://${azurerm_storage_account.example.name}.blob.core.windows.net/${azurerm_storage_container.example.name}/${azurerm_storage_blob.storage_blob.name}${data.azurerm_storage_account_blob_container_sas.storage_account_blob_container_sas.sas}",
     "FUNCTIONS_WORKER_RUNTIME" = "dotnet",
     "AzureWebJobsDisableHomepage" = "true",
   }
-  os_type = "linux"
-#  site_config {
-#    linux_fx_version          = "node|14"
-#    use_32_bit_worker_process = false
-#  }
+  site_config {
+    application_stack {
+      dotnet_version = "6.0"
+    }
+  }  
   storage_account_name       = azurerm_storage_account.example.name
   storage_account_access_key = azurerm_storage_account.example.primary_access_key
-  version                    = "~3"
+  functions_extension_version = "~4"
 }
