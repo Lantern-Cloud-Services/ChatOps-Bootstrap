@@ -100,7 +100,7 @@ data "azurerm_storage_account_blob_container_sas" "storage_account_blob_containe
   container_name    = azurerm_storage_container.example.name
 
   start = "2021-01-01T00:00:00Z"
-  expiry = "2022-01-01T00:00:00Z"
+  expiry = "2026-01-01T00:00:00Z"
 
   permissions {
     read   = true
