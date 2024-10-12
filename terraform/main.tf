@@ -68,19 +68,27 @@ resource "random_pet" "prefix" {
   length = 1
 }
 
+resource "azurerm_service_plan" "defaultexample" {
+  name                = "chatopsfunsa${var.randomname}"
+  location            = azurerm_resource_group.example.location
+  resource_group_name = azurerm_resource_group.example.name
+  sku_name            = "B1"
+  os_type             = "Linux"
+}
 
+/*
 resource "azurerm_app_service_plan" "example" {
 	name                = "chatops-app-service-plan-${var.randomname}"
 	location            = azurerm_resource_group.example.location
 	resource_group_name = azurerm_resource_group.example.name
-	kind                = "FunctionApp"
+	#kind                = "FunctionApp"
 	reserved            = true
 	sku {
 		tier = "Basic"
 		size = "B1"
 	}
 }
-
+*/
 resource "azurerm_storage_account" "example" {
 	name                     = "chatopsfunsa${var.randomname}"
 	resource_group_name      = azurerm_resource_group.example.name
