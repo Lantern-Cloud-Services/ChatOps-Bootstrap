@@ -28,7 +28,7 @@ resource "random_pet" "prefix" {
 }
 */
 
-
+# create resouce group
 resource "azurerm_resource_group" "example" {
     name = "${var.project}-${var.environment}-rg-${var.randomname}"
     location = var.location
@@ -50,6 +50,8 @@ resource "azurerm_function_app" "example" {
 }
 */
 
+
+# create function app
 resource "azurerm_linux_function_app" "example" {
   name                        = "example-function-app-${var.randomname}"
   location                    = azurerm_resource_group.example.location
@@ -68,6 +70,7 @@ resource "azurerm_linux_function_app" "example" {
   }
 }
 
+# create app service plan
 resource "azurerm_service_plan" "example" {
   name                = "chatopsfunsa${var.randomname}"
   location            = azurerm_resource_group.example.location
@@ -76,12 +79,14 @@ resource "azurerm_service_plan" "example" {
   os_type             = "Linux"
 }
 
+# zip up the function app
 data "archive_file" "file_function_app" {
   type        = "zip"
   source_dir  = "../"
   output_path = "function-app.zip"
 }
 
+# create storage account for function app
 resource "azurerm_storage_account" "example" {
 	name                     = "chatopsfunsa${var.randomname}"
 	resource_group_name      = azurerm_resource_group.example.name
@@ -90,29 +95,21 @@ resource "azurerm_storage_account" "example" {
 	account_replication_type = "LRS"
 }
 
+# create storage container for function app
 resource "azurerm_storage_container" "example" {
 	name                  = "functionapp"
 	storage_account_name  = azurerm_storage_account.example.name
 	container_access_type = "private"
 }
 
+# create storage blob for function app
 resource "azurerm_storage_blob" "storage_blob" {
-  name = "${filesha256(data.archive_file.output_path)}.zip"
+  name = "${filesha256(archive_file.output_path)}.zip"
   storage_account_name = azurerm_storage_account.example.name
   storage_container_name = azurerm_storage_container.example.name
   type = "Block"
-  source = data.archive_file.output_path
+  source = archive_file.output_path
 }
-
-
-resource "azurerm_storage_blob" "function_zip" {
-	name                   = "functionapp.zip"
-	storage_account_name   = azurerm_storage_account.example.name
-	storage_container_name = azurerm_storage_container.example.name
-	type                   = "Block"
-	source                 = "path/to/your/functionapp.zip"
-}
-
 
 /*
 resource "azurerm_function_app_function" "example" {
