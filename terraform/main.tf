@@ -101,16 +101,16 @@ resource "azurerm_storage_container" "example" {
 	storage_account_name  = azurerm_storage_account.example.name
 	container_access_type = "private"
 }
-
+/*
 # create storage blob for function app
 resource "azurerm_storage_blob" "storage_blob" {
-  name = "${filesha256(archive_file.output_path)}.zip"
+  name = "function-app.zip"
   storage_account_name = azurerm_storage_account.example.name
   storage_container_name = azurerm_storage_container.example.name
   type = "Block"
-  source = archive_file.output_path
+  source = "function-app.zip"
 }
-
+*/
 /*
 resource "azurerm_function_app_function" "example" {
 	name            = "example-function"
