@@ -115,9 +115,9 @@ data "azurerm_storage_account_blob_container_sas" "storage_account_blob_containe
 # deploy function to function app
 resource "azurerm_function_app" "function_app" {
   name                       = "${var.project}-function-app"
-  resource_group_name        = azurerm_resource_group.resource_group.name
+  resource_group_name        = azurerm_resource_group.example.name
   location                   = var.location
-  app_service_plan_id        = azurerm_service_plan.exampl.id
+  app_service_plan_id        = azurerm_service_plan.example.id
   app_settings = {
     "WEBSITE_RUN_FROM_PACKAGE"    = "https://${azurerm_storage_account.example.name}.blob.core.windows.net/${azurerm_storage_container.example.name}/${azurerm_storage_blob.storage_blob.name}${data.azurerm_storage_account_blob_container_sas.storage_account_blob_container_sas.sas}",
     "FUNCTIONS_WORKER_RUNTIME" = "dotnet",
@@ -129,6 +129,6 @@ resource "azurerm_function_app" "function_app" {
 #    use_32_bit_worker_process = false
 #  }
   storage_account_name       = azurerm_storage_account.example.name
-  storage_account_access_key = azurerm_storage_account.examplet.primary_access_key
+  storage_account_access_key = azurerm_storage_account.example.primary_access_key
   version                    = "~3"
 }
