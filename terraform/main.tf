@@ -33,7 +33,7 @@ resource "azurerm_resource_group" "example" {
     name = "${var.project}-${var.environment}-rg-${var.randomname}"
     location = var.location
 }
-
+/*
 # create function app
 resource "azurerm_linux_function_app" "example" {
   name                        = "example-function-app-${var.randomname}"
@@ -52,7 +52,7 @@ resource "azurerm_linux_function_app" "example" {
     }
   }
 }
-
+*/
 # create app service plan
 resource "azurerm_service_plan" "example" {
   name                = "chatopsfunsa${var.randomname}"
@@ -114,7 +114,8 @@ data "azurerm_storage_account_blob_container_sas" "storage_account_blob_containe
 
 # deploy function to function app
 resource "azurerm_function_app" "function_app" {
-  name                       = "${var.project}-function-app"
+  #name                       = "${var.project}-function-app"
+  name                       = "example-function-app-${var.randomname}"
   resource_group_name        = azurerm_resource_group.example.name
   location                   = var.location
   app_service_plan_id        = azurerm_service_plan.example.id
