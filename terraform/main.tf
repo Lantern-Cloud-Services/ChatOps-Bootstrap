@@ -97,11 +97,11 @@ resource "azurerm_storage_container" "example" {
 }
 
 resource "azurerm_storage_blob" "storage_blob" {
-  name = "${filesha256(var.archive_file.output_path)}.zip"
+  name = "${filesha256(data.archive_file.output_path)}.zip"
   storage_account_name = azurerm_storage_account.example.name
   storage_container_name = azurerm_storage_container.example.name
   type = "Block"
-  source = var.archive_file.output_path
+  source = data.archive_file.output_path
 }
 
 
