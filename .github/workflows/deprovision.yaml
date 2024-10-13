@@ -1,4 +1,4 @@
-name: 'Terraform'
+name: 'Deprovision'
  
 on:
   workflow_dispatch: 
