@@ -133,6 +133,7 @@ resource "azurerm_linux_function_app" "example" {
 }
 */
 
+/*
 # deploy function to function app
 resource "azurerm_linux_function_app" "example" {
   #name                       = "${var.project}-function-app"
@@ -154,3 +155,4 @@ resource "azurerm_linux_function_app" "example" {
   storage_account_access_key = azurerm_storage_account.example.primary_access_key
   functions_extension_version = "~4"
 }
+*/
