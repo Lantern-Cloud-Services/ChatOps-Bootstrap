@@ -80,7 +80,7 @@ jobs:
         tf_actions_version: ${{ env.TF_VERSION }}
         tf_actions_subcommand: 'apply'
         tf_actions_working_dir: "./terraform"
-        args: '-var="randomname=${{ inputs.deployment_name }}"'
+        args: '-var="deployment_name=${{ inputs.deployment_name }}"'
 
 #  chatops_channel-response:
 #    runs-on: ubuntu-latest
