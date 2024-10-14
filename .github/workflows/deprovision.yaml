@@ -32,12 +32,20 @@ jobs:
 #        tf_actions_subcommand: 'fmt'
 #        tf_actions_working_dir: "./terraform"
          
-    - name: 'Terraform Init'
+#    - name: 'Terraform Init'
+#      uses: hashicorp/terraform-github-actions@master
+#      with:
+#        tf_actions_version: ${{ env.TF_VERSION }}
+#        tf_actions_subcommand: 'init'
+#        tf_actions_working_dir: "./terraform"
+
+    - name: 'Terraform Init with Variable Backend Key'
       uses: hashicorp/terraform-github-actions@master
       with:
         tf_actions_version: ${{ env.TF_VERSION }}
         tf_actions_subcommand: 'init'
         tf_actions_working_dir: "./terraform"
+        args: '-backend-config="key=chatopsdemo-dev-state.tfstate"'
  
     - name: 'Terraform Validate'
       uses: hashicorp/terraform-github-actions@master
