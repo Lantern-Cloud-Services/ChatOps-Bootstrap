@@ -42,6 +42,7 @@ jobs:
         tf_actions_version: ${{ env.TF_VERSION }}
         tf_actions_subcommand: 'init'
         tf_actions_working_dir: "./terraform"
+        args: '-backend-config=backend.tfvars -key=chatopsdemo-dev-state.tfstate'
  
     - name: 'Terraform Validate'
       uses: hashicorp/terraform-github-actions@master
@@ -64,3 +65,13 @@ jobs:
         tf_actions_version: ${{ env.TF_VERSION }}
         tf_actions_subcommand: 'apply'
         tf_actions_working_dir: "./terraform"
+
+#  chatops_channel-response:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Make REST Call
+#        run: | 
+#          curl -X POST "https://prod-21.centralus.logic.azure.com:443/workflows/1fbf0a3ec43243a9af04bd384bc86ce2/triggers/When_a_HTTP_request_is_received/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2FWhen_a_HTTP_request_is_received%2Frun&sv=1.0&sig=sA_uY0fsy-8AHTmdj0NqYlAmPttbM6al6tV4D7Pbdq4" \
+#          -H "Content-Type: application/json" \
+#          -d '{"status":"provisioned", "id":"rando", "user":"Jason Cook", "userId":"f41d53ef-011e-4bba-8ecc-c77fd90b08d1", "messageId":"1728703287699", "msg":"output msg" }'
+      
