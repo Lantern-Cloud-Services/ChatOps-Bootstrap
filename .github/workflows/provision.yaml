@@ -48,10 +48,10 @@ jobs:
       uses: hashicorp/terraform-github-actions@master
       with:
         tf_actions_version: ${{ env.TF_VERSION }}
-        tf_actions_subcommand: 'init -var="key=chatopsdemo-dev-state2.tfstate"'
+        tf_actions_subcommand: 'init'
         tf_actions_working_dir: "./terraform"
-#        args: '-backend-config=backend.tfvars -var="key=chatopsdemo-dev-state2.tfstate"'
-        args: '-backend-config=backend.tfvars'
+#        args: '-backend-config=backend.tfvars'
+        args: '-backend-config="key=chatopsdemo-dev-state.tfstate"'
 
 
 
