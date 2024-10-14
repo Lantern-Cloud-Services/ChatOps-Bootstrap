@@ -32,26 +32,7 @@ resource "azurerm_resource_group" "example" {
     name = "${var.project}-${var.environment}-rg-${var.deployment_name}"
     location = var.location
 }
-/*
-# create function app
-resource "azurerm_linux_function_app" "example" {
-  name                        = "example-function-app-${var.randomname}"
-  location                    = azurerm_resource_group.example.location
-  resource_group_name         = azurerm_resource_group.example.name
-  service_plan_id             = azurerm_service_plan.example.id
-  storage_account_name        = azurerm_storage_account.example.name
-  storage_account_access_key  = azurerm_storage_account.example.primary_access_key
-  https_only                  = true
-  builtin_logging_enabled     = false
-  functions_extension_version = "~4"
 
-  site_config {
-    application_stack {
-      dotnet_version = "6.0"
-    }
-  }
-}
-*/
 # create app service plan
 resource "azurerm_service_plan" "example" {
   name                = "chatopsfunsa${var.deployment_name}"

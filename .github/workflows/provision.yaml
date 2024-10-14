@@ -3,9 +3,6 @@ name: 'Provision'
 on:
   workflow_dispatch: 
       inputs:
-#        state_key:
-#          required: true
-#          type: string
         deployment_name:
           required: true
           type: string
@@ -43,14 +40,6 @@ jobs:
 #        tf_actions_subcommand: 'fmt'
 #        tf_actions_working_dir: "./terraform"
          
-#    - name: 'Terraform Init'
-#      uses: hashicorp/terraform-github-actions@master
-#      with:
-#        tf_actions_version: ${{ env.TF_VERSION }}
-#        tf_actions_subcommand: 'init'
-#        tf_actions_working_dir: "./terraform"
-#        args: '-backend-config=backend.tfvars -key=chatopsdemo-dev-state.tfstate'
- 
     - name: 'Terraform Init with Variable Backend Key'
       uses: hashicorp/terraform-github-actions@master
       with:
