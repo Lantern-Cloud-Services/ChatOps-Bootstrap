@@ -3,7 +3,6 @@ name: Test
 
 on:
     workflow_dispatch: 
-    workflow_call:
       inputs:
         status:
           required: true
