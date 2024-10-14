@@ -1,1 +1,1 @@
-key    = "path/to/my/key"
+key    = "chatopsdemo-dev-state.tfstate"
