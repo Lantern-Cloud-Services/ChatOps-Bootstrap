@@ -33,7 +33,7 @@ resource "azurerm_resource_group" "example" {
 
 # create app service plan
 resource "azurerm_service_plan" "example" {
-  name                = "chatopsfunsa${var.deployment_name}"
+  name                = "chatopsfunsp${var.deployment_name}"
   location            = azurerm_resource_group.example.location
   resource_group_name = azurerm_resource_group.example.name
   sku_name            = "B1"
@@ -49,7 +49,7 @@ data "archive_file" "file_function_app" {
 
 # create storage account for function app
 resource "azurerm_storage_account" "example" {
-	name                     = "chatopsfunsa${var.deployment_name}"
+	name                     = "cfsa${var.deployment_name}"
 	resource_group_name      = azurerm_resource_group.example.name
 	location                 = azurerm_resource_group.example.location
 	account_tier             = "Standard"
