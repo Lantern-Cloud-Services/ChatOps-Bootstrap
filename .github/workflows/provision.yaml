@@ -54,7 +54,6 @@ jobs:
         tf_actions_version: ${{ env.TF_VERSION }}
         tf_actions_subcommand: 'init'
         tf_actions_working_dir: "./terraform"
-#        args: '-backend-config="key=chatopsdemo-dev-state.tfstate"'
         args: '-backend-config="key=${{ inputs.state_key }}"'
 
     - name: 'Terraform Validate'

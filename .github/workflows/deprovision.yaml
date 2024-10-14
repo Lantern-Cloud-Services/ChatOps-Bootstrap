@@ -2,7 +2,11 @@ name: 'Deprovision'
  
 on:
   workflow_dispatch: 
- 
+       inputs:
+        state_key:
+          required: true
+          type: string
+
 jobs:
   terraform:
     name: 'Terraform'
@@ -45,8 +49,8 @@ jobs:
         tf_actions_version: ${{ env.TF_VERSION }}
         tf_actions_subcommand: 'init'
         tf_actions_working_dir: "./terraform"
-        args: '-backend-config="key=chatopsdemo-dev-state.tfstate"'
- 
+        args: '-backend-config="key=${{ inputs.state_key }}"'
+         
     - name: 'Terraform Validate'
       uses: hashicorp/terraform-github-actions@master
       with:

@@ -4,7 +4,7 @@ terraform {
     resource_group_name = "demo-lcs2-dev-chatops-rg1"
     storage_account_name = "demochatopsbackendsa1"
     container_name = "demo-chatops-terraform-state"
-    #key = "chatopsdemo-dev-state.tfstate"
+    #key = "" dynamically passed in
   }
 }
  
