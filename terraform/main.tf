@@ -12,8 +12,6 @@ provider "azurerm" {
   features {}
 }
 
-
-
 /*
 # Generate a random integer to create a globally unique name
 resource "random_integer" "ri" {
