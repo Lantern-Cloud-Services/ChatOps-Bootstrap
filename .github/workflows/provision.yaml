@@ -3,7 +3,10 @@ name: 'Provision'
 on:
   workflow_dispatch: 
       inputs:
-        state_key:
+#        state_key:
+#          required: true
+#          type: string
+        deployment_name:
           required: true
           type: string
  
@@ -54,7 +57,7 @@ jobs:
         tf_actions_version: ${{ env.TF_VERSION }}
         tf_actions_subcommand: 'init'
         tf_actions_working_dir: "./terraform"
-        args: '-backend-config="key=${{ inputs.state_key }}"'
+        args: '-backend-config="key=chatopsdemo-state-${{ inputs.deployment_name }}.tfstate"'
 
     - name: 'Terraform Validate'
       uses: hashicorp/terraform-github-actions@master
@@ -77,6 +80,7 @@ jobs:
         tf_actions_version: ${{ env.TF_VERSION }}
         tf_actions_subcommand: 'apply'
         tf_actions_working_dir: "./terraform"
+        args: '-var="randomname=${{ inputs.deployment_name }}"'
 
 #  chatops_channel-response:
 #    runs-on: ubuntu-latest

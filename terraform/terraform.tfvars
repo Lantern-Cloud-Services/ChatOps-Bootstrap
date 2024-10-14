@@ -1,4 +1,4 @@
 project = "chatops-demo"
 environment = "dev"
 location = "West US"
-randomname = "goldenpuppy"
+deployment_name = "goldenpuppy"
