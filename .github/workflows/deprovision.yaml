@@ -45,7 +45,7 @@ jobs:
         tf_actions_version: ${{ env.TF_VERSION }}
         tf_actions_subcommand: 'init'
         tf_actions_working_dir: "./terraform"
-        args: '-backend-config="key=chatopsdemo-state-${{ inputs.deployment_name }}.tfstate"'
+        args: '-backend-config="key=chatopsdemo-state-${{ inputs.message_id }}.tfstate"'
 
     - name: 'Terraform Validate'
       uses: hashicorp/terraform-github-actions@master
