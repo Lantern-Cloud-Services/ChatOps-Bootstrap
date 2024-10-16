@@ -9,7 +9,7 @@ on:
         user_id:
           required: true
           type: string  
-          msg:
+        msg:
           required: false
           type: string
   
