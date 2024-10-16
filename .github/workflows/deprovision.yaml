@@ -6,7 +6,10 @@ on:
         message_id:
           required: true
           type: string
-        msg:
+        user_id:
+          required: true
+          type: string  
+          msg:
           required: false
           type: string
   
@@ -76,5 +79,5 @@ jobs:
         run: | 
           curl -X POST "https://prod-10.centralus.logic.azure.com:443/workflows/c8c470143b2b47c3a40b15a532417378/triggers/When_a_HTTP_request_is_received/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2FWhen_a_HTTP_request_is_received%2Frun&sv=1.0&sig=TmPKMSu8MMoZsorXCuAsDyBfoattuGBJB09_6fSGdME" \
           -H "Content-Type: application/json" \
-          -d '{"status":"destroyed", "id":"${{ inputs.message_id }}", "resourceGroup":"chatops-demo-dev-rg-${{ inputs.message_id }}", "messageId":"${{ inputs.message_id }}", "msg":"${{ inputs.msg }}" }'
+          -d '{"status":"destroyed", "id":"${{ inputs.message_id }}", "user_id":"${{ inputs.user_id }}", "resourceGroup":"chatops-demo-dev-rg-${{ inputs.message_id }}", "messageId":"${{ inputs.message_id }}", "msg":"${{ inputs.msg }}" }'
 
