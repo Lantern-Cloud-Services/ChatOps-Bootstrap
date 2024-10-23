@@ -1,0 +1,12 @@
+$resourceGroupName = "demo-lcs2-dev-chatops-rg1"
+$accountName = "chatops-demo-dev-chatops-cdb1"
+ 
+$roleDefinitionId = "/subscriptions/d16ac254-7b87-4947-af1d-9cdb6771c5f7/resourceGroups/demo-lcs-appdev-core-rg1/providers/Microsoft.DocumentDB/databaseAccounts/demo-lcs-appdev-core-cdb1/sqlRoleDefinitions/00000000-0000-0000-0000-000000000002"
+ 
+$principalId = "f41d53ef-*****"
+ 
+New-AzCosmosDBSqlRoleAssignment -AccountName $accountName ` 
+    -ResourceGroupName $resourceGroupName `
+    -RoleDefinitionId $roleDefinitionId `
+    -Scope "/" `
+    -PrincipalId $principalId
