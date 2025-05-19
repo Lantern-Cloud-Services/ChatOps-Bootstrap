@@ -90,47 +90,63 @@ data "azurerm_storage_account_blob_container_sas" "storage_account_blob_containe
   }
 }
 
-/*
+# Create Cosmos DB account
+resource "azurerm_cosmosdb_account" "orders_db" {
+  name                = "orders-cosmos-${var.deployment_name}"
+  location            = azurerm_resource_group.example.location
+  resource_group_name = azurerm_resource_group.example.name
+  offer_type          = "Standard"
+  kind                = "GlobalDocumentDB"
+
+  consistency_policy {
+    consistency_level = "Session"
+  }
+
+  geo_location {
+    location          = azurerm_resource_group.example.location
+    failover_priority = 0
+  }
+}
+
+# Create Cosmos DB SQL Database
+resource "azurerm_cosmosdb_sql_database" "orders_database" {
+  name                = "OrdersDatabase"
+  resource_group_name = azurerm_cosmosdb_account.orders_db.resource_group_name
+  account_name        = azurerm_cosmosdb_account.orders_db.name
+}
+
+# Create Cosmos DB SQL Container
+resource "azurerm_cosmosdb_sql_container" "orders_container" {
+  name                = "OrdersContainer"
+  resource_group_name = azurerm_cosmosdb_account.orders_db.resource_group_name
+  account_name        = azurerm_cosmosdb_account.orders_db.name
+  database_name       = azurerm_cosmosdb_sql_database.orders_database.name
+  partition_key_path  = "/orderID"
+  throughput          = 400
+}
+
 # create function app
 resource "azurerm_linux_function_app" "example" {
-  name                        = "example-function-app-${var.randomname}"
+  name                        = "orderprocessor-${var.deployment_name}"
   location                    = azurerm_resource_group.example.location
   resource_group_name         = azurerm_resource_group.example.name
   service_plan_id             = azurerm_service_plan.example.id
   storage_account_name        = azurerm_storage_account.example.name
   storage_account_access_key  = azurerm_storage_account.example.primary_access_key
   https_only                  = true
-  builtin_logging_enabled     = false
+  builtin_logging_enabled     = true
   functions_extension_version = "~4"
 
-  site_config {
-    application_stack {
-      dotnet_version = "6.0"
-    }
-  }
-}
-*/
-
-/*
-# deploy function to function app
-resource "azurerm_linux_function_app" "example" {
-  #name                       = "${var.project}-function-app"
-  name                       = "example-function-app-${var.randomname}"
-  resource_group_name        = azurerm_resource_group.example.name
-  location                   = var.location
-  service_plan_id        = azurerm_service_plan.example.id
   app_settings = {
     "WEBSITE_RUN_FROM_PACKAGE"    = "https://${azurerm_storage_account.example.name}.blob.core.windows.net/${azurerm_storage_container.example.name}/${azurerm_storage_blob.storage_blob.name}${data.azurerm_storage_account_blob_container_sas.storage_account_blob_container_sas.sas}",
-    "FUNCTIONS_WORKER_RUNTIME" = "dotnet",
+    "FUNCTIONS_WORKER_RUNTIME"    = "dotnet",
     "AzureWebJobsDisableHomepage" = "true",
+    "CosmosDBConnection"          = azurerm_cosmosdb_account.orders_db.primary_sql_connection_string,
   }
+
   site_config {
     application_stack {
       dotnet_version = "6.0"
     }
-  }  
-  storage_account_name       = azurerm_storage_account.example.name
-  storage_account_access_key = azurerm_storage_account.example.primary_access_key
-  functions_extension_version = "~4"
+  }
 }
-*/
